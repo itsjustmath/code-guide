@@ -8,11 +8,11 @@ _Guidelines for flexible and maintainable HTML and CSS_
 # TL;DR
 
 * **High-Level**
-  * [HTML](#html) / [CSS](#css) formatting and syntax-related [stuff](http://docs.emmet.io/css-abbreviations/vendor-prefixes/) should be handled by [our](https://github.com/postcss/autoprefixer) [various](https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md) [linters](https://github.com/philipwalton/html-inspector)
+  * [HTML](#html) / [CSS](#css) formatting and syntax-related [stuff](http://docs.emmet.io/css-abbreviations/vendor-prefixes/) should be handled by [various](https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md) [linters](https://github.com/postcss/autoprefixer)
   * Use meaningful [naming conventions](#naming-conventions); use structural or purposeful names over presentational
-  * Before you **touch** any of the stylesheets, [study this thoroughly](https://github.com/itsjustmath/scalable-css-reading-list);
+  * Before you start **touching** any stylesheets, [study this thoroughly](https://github.com/itsjustmath/scalable-css-reading-list);
   * We use [SCSS](#css), and our own twist on the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc);
-  * We promote the use of [OOCSS](#principles) and the [single responsibility principle](#principles)	
+  * We promote the use of [OOCSS](#principles) and the [single responsibility principle](#principles)
 * **The Details**
   * We use [`js-`](#javascript) prefixed class names for elements being relied upon for javascript selectors
   * We use [`.u-`](#utilites) prefixed class names for single purpose utility classes
@@ -26,7 +26,6 @@ _Guidelines for flexible and maintainable HTML and CSS_
   * Use white space to improve [legibility](#single-declarations)
   * Avoid [`#ids`](#avoid-ids), [`!important`](#avoid-important), [child selectors](#avoid-child-selector), and [magic numbers](#avoid-magic-numbers);
 * **Workflows**
-  * We use [table of comments](https://github.com/kizza/Table-of-comments) (ST3) for quickly jumping around our stylesheets
   * Our [stylesheet directory structure](#architecture) is based on [SMACSS](https://smacss.com/book/categorizing)
 
 ---
@@ -79,7 +78,7 @@ Example with better names:
 
 # CSS
 
-#### Before you continue reading, I **highly recommend** you study [this reading list](https://github.com/davidtheclark/scalable-css-reading-list) - it is the go-to resource for resources related to writing scalable, object-oriented CSS.
+#### Before you continue reading, I **highly recommend** you study [this reading list](https://github.com/itsjustmath/scalable-css-reading-list) - it is the go-to resource for resources related to writing scalable, object-oriented CSS.
 
 ## Our Codebase
 
@@ -159,48 +158,55 @@ You can think of components as **custom elements that enclose specific semantics
 ### ComponentName
 The component's name must be written in camel case.
 
-    .myComponent { /* … */ }
+```
+.myComponent { /* … */ }
 
-    <article class="myComponent">
-      …
-    </article>
+<article class="myComponent">
+  …
+</article>
+```
 
 ### componentName--modifierName
 A component modifier is a class that *modifies the presentation of the base component in some form*. Modifier names must be written in camel case and be separated from the component name by two hyphens. **The class should be included in the HTML in addition to the base component class**.
 
-    /* Core button */
-    .btn { /* … */ }
+```
+/* Core button */
+.btn { /* … */ }
 
-    /* Default button style */
-    .btn--default { /* … */ }
+/* Default button style */
+.btn--default { /* … */ }
 
-    <button class="btn btn--primary">…</button>
+<button class="btn btn--primary">…</button>
+```
 
 ### componentName-descendantName
 A component descendant is a class that is attached to a descendant node of a component. It's responsible for applying presentation directly to the descendant on behalf of a particular component. Descendant names must be written in camel case.
 
-    <article class="tweet">
-      <header class="tweet-header">
-        <img class="tweet-avatar" src="{$src}" alt="{$alt}">
-        …
-      </header>
-      <div class="tweet-body">
-        …
-      </div>
-    </article>
+```
+<article class="tweet">
+  <header class="tweet-header">
+    <img class="tweet-avatar" src="{$src}" alt="{$alt}">
+    …
+  </header>
+  <div class="tweet-body">
+    …
+  </div>
+</article>
+```
 
 ### componentName.is-stateOfComponent
 Use `is-stateName` for *state-based modifications of components*. The state name must be Camel case. Never style these classes directly; they should always be used as an adjoining class.
 
 JS can add/remove these classes. This means that the same state names can be used in multiple contexts, but **every component must define its own styles for the state** (as they are scoped to the component).
 
-    .tweet { /* … */ }
-    .tweet.is-expanded { /* … */ }
+```
+.tweet { /* … */ }
+.tweet.is-expanded { /* … */ }
 
-    <article class="tweet is-expanded">
-      …
-    </article>
-
+<article class="tweet is-expanded">
+  …
+</article>
+```
 
 ## Variables
 
@@ -210,20 +216,24 @@ Variable names in our CSS are structured to provide strong associations between 
 
 The following variable definition is a `color` property, with the value `greenCaribbean`.
 
-    $color-greenCaribbean: #00BC9B;
-
+```
+$color-greenCaribbean: #00BC9B;
+```
 
 ### Colors
-When implementing feature styles, you should only be using color variables provided by colors.scss. When adding a color variable to colors.scss, use hex instead of RGB for colors. 
+When implementing feature styles, you should only be using color variables provided by colors.scss. When adding a color variable to colors.scss, use hex instead of RGB for colors.
 
 Right:
 
-    color: #000;
+```
+color: #000;
+```
 
 Wrong:
 
-    color: rgba(255,255,255,.3);
-
+```
+color: rgba(255,255,255,.3);
+```
 
 ### z-index scale
 Please use the z-index scale defined in z-index.scss.
@@ -237,43 +247,51 @@ Please use the z-index scale defined in z-index.scss.
 
 ~~The suffix defines the weight and style:~~
 
-    N = normal
-    I = italic
-    4 = normal font-weight
-    7 = bold font-weight
+```
+N = normal
+I = italic
+4 = normal font-weight
+7 = bold font-weight
+```
 
 Refer to ~~type.scss~~ `variables.scss` for type size, letter-spacing, and line height. Raw sizes, spaces, and line heights should be avoided outside of ~~type.scss~~ `variables.scss`.
 
-    @fontSize-micro
-    @fontSize-smallest
-    @fontSize-smaller
-    @fontSize-small
-    @fontSize-base
-    @fontSize-large
-    @fontSize-larger
-    @fontSize-largest
-    @fontSize-jumbo
+```
+@fontSize-micro
+@fontSize-smallest
+@fontSize-smaller
+@fontSize-small
+@fontSize-base
+@fontSize-large
+@fontSize-larger
+@fontSize-largest
+@fontSize-jumbo
+```
 
 ### Line Height
 ~~type.scss~~ `variables.scss` also provides a line height scale. This should be used for blocks of text.
 
-    @lineHeight-tightest
-    @lineHeight-tighter
-    @lineHeight-tight
-    @lineHeight-baseSans
-    @lineHeight-base
-    @lineHeight-loose
-    @lineHeight-looser
+```
+@lineHeight-tightest
+@lineHeight-tighter
+@lineHeight-tight
+@lineHeight-baseSans
+@lineHeight-base
+@lineHeight-loose
+@lineHeight-looser
+```
 
 ### Letter spacing
 Letter spacing should also be controlled with the following var scale.
 
-    @letterSpacing-tightest
-    @letterSpacing-tighter
-    @letterSpacing-tight
-    @letterSpacing-normal
-    @letterSpacing-loose
-    @letterSpacing-looser
+```
+@letterSpacing-tightest
+@letterSpacing-tighter
+@letterSpacing-tight
+@letterSpacing-normal
+@letterSpacing-loose
+@letterSpacing-looser
+```
 
 ### Mixins
 mixin syntax: `m-<propertyName>`
@@ -358,26 +376,9 @@ Often times we don't need to set all the values a shorthand property represents.
 │   └── IE
 ├── components  // reusable, modular design elements
 ├── layout  // grid, layouts
-├── pages
-│   ├── about
-│   ├── dashboard
-│   ├── ppc
-│   └── workflow
-├── partners
-│   └── usn
-│       └── images
 ├── plugins  // for vendor utilities used
-│   ├── bootstrap
-│   └── jquery
-│       └── images
 ├── state  // active/inactive, hidden/visible; JS
 └── theme  // added layer of design (colors, fonts); multiple themes, variations on style of components
-    ├── kaizen
-    │   ├── components
-    │   ├── layout
-    │   └── pages
-    └── usn
-        └── images
 ```
 
 ---

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Code-guide by itsjustmath</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Code-guide</h1>
+        <h2>guidelines for flexible and maintainable HTML and CSS</h2>
+        <a href="https://github.com/itsjustmath/code-guide" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="code-guide" class="anchor" href="#code-guide" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Guide</h1>
+
+<p><em>Guidelines for flexible and maintainable HTML and CSS</em></p>
+
+<h3>
+<a id="every-line-of-code-should-appear-to-be-written-by-a-single-person-no-matter-the-number-of-contributors" class="anchor" href="#every-line-of-code-should-appear-to-be-written-by-a-single-person-no-matter-the-number-of-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Every line of code should appear to be written by a single person, no matter the number of contributors.<a href="http://mdo.github.io/code-guide/">*</a>
+</h3>
+
+<hr>
+
+<h1>
+<a id="tldr" class="anchor" href="#tldr" aria-hidden="true"><span class="octicon octicon-link"></span></a>TL;DR</h1>
+
+<ul>
+<li>
+<strong>High-Level</strong>
+
+<ul>
+<li>
+<a href="#html">HTML</a> / <a href="#css">CSS</a> formatting and syntax-related <a href="http://docs.emmet.io/css-abbreviations/vendor-prefixes/">stuff</a> should be handled by <a href="https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md">various</a> <a href="https://github.com/postcss/autoprefixer">linters</a>
+</li>
+<li>Use meaningful <a href="#naming-conventions">naming conventions</a>; use structural or purposeful names over presentational</li>
+<li>Before you start <strong>touching</strong> any stylesheets, <a href="https://github.com/itsjustmath/scalable-css-reading-list">study this thoroughly</a>;</li>
+<li>We use <a href="#css">SCSS</a>, and our own twist on the <a href="https://github.com/suitcss/suit/tree/master/doc">SUIT CSS framework</a>;</li>
+<li>We promote the use of <a href="#principles">OOCSS</a> and the <a href="#principles">single responsibility principle</a>
+</li>
+</ul>
+</li>
+<li>
+<strong>The Details</strong>
+
+<ul>
+<li>We use <a href="#javascript"><code>js-</code></a> prefixed class names for elements being relied upon for javascript selectors</li>
+<li>We use <a href="#utilities"><code>.u-</code></a> prefixed class names for single purpose utility classes</li>
+<li>Our <a href="#components">components</a> use <strong>meaningful hypens</strong> and <strong>camelCase</strong>  and follow the <a href="#componentname"><code>&lt;componentName&gt;[--modifierName|-descendantName]</code></a> pattern</li>
+<li>
+<a href="#componentnameis-stateofcomponent"><code>.is-</code></a> prefixed classes for stateful classes (often toggled by js) like <code>.is-disabled</code>
+</li>
+<li>
+<code>$variable</code> names should follow the <a href="#variables"><code>&lt;property&gt;-&lt;value&gt;</code></a> pattern</li>
+<li>Use <a href="#colors"><code>color</code></a>, <a href=""><code>font-family</code></a>, <a href=""><code>font-size</code></a>, <a href="#line-height"><code>line-height</code></a>, and <a href="#letter-spacing"><code>letter-spacing</code></a> variables defined in the <code>variables.scss</code> file</li>
+<li>Mixins should be prefixed with <a href="#mixins"><code>.m-</code></a>
+</li>
+</ul>
+</li>
+<li>
+<strong>Best Practices</strong>
+
+<ul>
+<li>Limit the use of <a href="#shorthand-notation">shorthand declarations</a>
+</li>
+<li>Use white space to improve <a href="#single-declarations">legibility</a>
+</li>
+<li>Avoid <a href="#avoid-ids"><code>#ids</code></a>, <a href="#avoid-important"><code>!important</code></a>, <a href="#avoid-child-selector">child selectors</a>, and <a href="#avoid-magic-numbers">magic numbers</a>;</li>
+</ul>
+</li>
+<li>
+<strong>Workflows</strong>
+
+<ul>
+<li>Our <a href="#architecture">stylesheet directory structure</a> is based on <a href="https://smacss.com/book/categorizing">SMACSS</a>
+</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+
+<h1>
+<a id="html" class="anchor" href="#html" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML</h1>
+
+<h2>
+<a id="naming-conventions-" class="anchor" href="#naming-conventions-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naming Conventions <a href="https://github.com/necolas/idiomatic-html">*</a>
+</h2>
+
+<p><img src="http://i.imgur.com/2CtFy2X.png" alt="Semantics"></p>
+
+<blockquote>
+<p>Use meaningful names; use structural or purposeful names over presentational.</p>
+</blockquote>
+
+<p>Use clear, thoughtful, and appropriate names for HTML classes. The names should be informative both within HTML and CSS files.</p>
+
+<h3>
+<a id="practicality-over-purity" class="anchor" href="#practicality-over-purity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practicality over purity</h3>
+
+<p>Strive to maintain HTML standards and semantics, but not at the expense of practicality. Use the least amount of markup with the fewest intricacies whenever possible.</p>
+
+<p>Avoid systematic use of abbreviated class names. Don't make things difficult to understand.</p>
+
+<p>Example with bad names:</p>
+
+<p><code>&lt;div class="cb s-scr"&gt;&lt;/div&gt;</code></p>
+
+<pre><code>.s-scr {
+  overflow: auto;
+}
+
+.cb {
+  background: #000;
+}
+</code></pre>
+
+<p>Example with better names:</p>
+
+<p><code>&lt;div class="column-body is-scrollable"&gt;&lt;/div&gt;</code></p>
+
+<pre><code>.is-scrollable {
+    overflow: auto;
+}
+
+.column-body {
+    background: #000;
+}
+</code></pre>
+
+<hr>
+
+<h1>
+<a id="css" class="anchor" href="#css" aria-hidden="true"><span class="octicon octicon-link"></span></a>CSS</h1>
+
+<h4>
+<a id="before-you-continue-reading-i-highly-recommend-you-study-this-reading-list---it-is-the-go-to-resource-for-resources-related-to-writing-scalable-object-oriented-css" class="anchor" href="#before-you-continue-reading-i-highly-recommend-you-study-this-reading-list---it-is-the-go-to-resource-for-resources-related-to-writing-scalable-object-oriented-css" aria-hidden="true"><span class="octicon octicon-link"></span></a>Before you continue reading, I <strong>highly recommend</strong> you study <a href="https://github.com/itsjustmath/scalable-css-reading-list">this reading list</a> - it is the go-to resource for resources related to writing scalable, object-oriented CSS.</h4>
+
+<h2>
+<a id="our-codebase" class="anchor" href="#our-codebase" aria-hidden="true"><span class="octicon octicon-link"></span></a>Our Codebase</h2>
+
+<p>Agent Ace uses a subset of <a href="http://sass-lang.com/">SCSS</a> for style generation. Agent Ace's naming conventions are adapted from the work being done in the <a href="https://github.com/suitcss/suit/tree/master/doc">SUIT CSS framework</a> (and <a href="https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06">@fat</a> at Medium). Which is to say...</p>
+
+<blockquote>
+<p><strong>It relies on structured class names and meaningful hyphens</strong> (i.e., not using hyphens merely to separate words). This is to help communicate the relationships between classes.</p>
+</blockquote>
+
+<h2>
+<a id="principles" class="anchor" href="#principles" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://cssguidelin.es/#object-orientation">Principles</a>
+</h2>
+
+<h3>
+<a id="object-orientation" class="anchor" href="#object-orientation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Object-orientation</h3>
+
+<p>Object-orientation is a programming paradigm that breaks larger programs up into smaller, in(ter)dependent objects that all have their own roles and responsibilities.</p>
+
+<p>When applied to CSS, we call it object-oriented CSS, or OOCSS (coined by Nicole Sullivan). OOCSS deals with the separation of UIs into structure and skin: breaking UI components into their underlying structural forms, and layering their cosmetic forms on separately. This means that we can recycle common and recurring design patterns very cheaply without having to necessarily recycle their specific implementation details at the same time. OOCSS promotes reuse of code, which makes us quicker, as well as keeping the size of our codebase down.</p>
+
+<h3>
+<a id="the-single-responsibility-principle" class="anchor" href="#the-single-responsibility-principle" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Single Responsibility Principle</h3>
+
+<p>The single responsibility principle is a paradigm that, very loosely, states that all pieces of code (in our case, classes) should focus on doing one thing and one thing only. More formally:</p>
+
+<blockquote>
+<p>…the single responsibility principle states that every context (class, function, variable, etc.) should have a single responsibility, and that responsibility should be entirely encapsulated by the context.</p>
+</blockquote>
+
+<p>What this means for us is that our CSS should be composed of a series of much smaller classes that focus on providing very specific and limited functionality. This means that we need to decompose UIs into their smallest component pieces that each serve a single responsibility; they all do just one job, but can be very easily combined and composed to make much more versatile and complex constructs.</p>
+
+<h2>
+<a id="javascript" class="anchor" href="#javascript" aria-hidden="true"><span class="octicon octicon-link"></span></a>Javascript</h2>
+
+<p>syntax: <code>js-&lt;targetName&gt;</code></p>
+
+<p>JavaScript-specific classes reduce the risk that changing the structure or theme of components will inadvertently affect any required JavaScript behaviour and complex functionality. It is not neccesarry to use them in every case, just think of them as a tool in your utility belt. If you are creating a class, which you dont intend to use for styling, but instead only as a selector in JavaScript, you should probably be adding the js- prefix. In practice this looks like this:</p>
+
+<pre><code>&lt;a href="/login" class="btn btn-primary js-login"&gt;&lt;/a&gt;
+</code></pre>
+
+<p><strong>Again, JavaScript-specific classes should not, under any circumstances, be styled.</strong></p>
+
+<h2>
+<a id="utilities" class="anchor" href="#utilities" aria-hidden="true"><span class="octicon octicon-link"></span></a>Utilities</h2>
+
+<p>Agent Ace's utility classes are <strong>low-level structural and positional traits</strong>. Utilities can be applied directly to any element; multiple utilities can be used together; and utilities can be used alongside component classes.</p>
+
+<p>Utilities exist because <strong>certain CSS properties and patterns are used frequently</strong>. For example: floats, containing floats, vertical alignment, text truncation. Relying on utilities can help to reduce repetition and provide consistent implementations. They also act as a philosophical alternative to functional (i.e. non-polyfill) mixins.</p>
+
+<pre><code>&lt;div class="u-clearfix"&gt;
+  &lt;p class="u-textTruncate"&gt;{$text}&lt;/p&gt;
+  &lt;img class="u-pullLeft" src="{$src}" alt=""&gt;
+  &lt;img class="u-pullLeft" src="{$src}" alt=""&gt;
+  &lt;img class="u-pullLeft" src="{$src}" alt=""&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>
+<a id="u-utilityname" class="anchor" href="#u-utilityname" aria-hidden="true"><span class="octicon octicon-link"></span></a>u-utilityName</h3>
+
+<p>Syntax: <code>u-&lt;utilityName&gt;</code></p>
+
+<p>Utilities must use a camel case name, prefixed with a u namespace. What follows is an example of how various utilities can be used to create a simple structure within a component.</p>
+
+<pre><code>&lt;div class="u-clearfix"&gt;
+  &lt;a class="u-pullLeft" href="{$url}"&gt;
+    &lt;img class="u-block" src="{$src}" alt=""&gt;
+  &lt;/a&gt;
+  &lt;p class="u-sizeFill u-textBreak"&gt;
+    …
+  &lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h2>
+<a id="components" class="anchor" href="#components" aria-hidden="true"><span class="octicon octicon-link"></span></a>Components</h2>
+
+<p>Syntax: <code>&lt;componentName&gt;[--modifierName|-descendantName]</code></p>
+
+<p>Component driven development offers several benefits when reading and writing HTML and CSS:</p>
+
+<ul>
+<li>It helps to distinguish between the classes for the root of the component, descendant elements, and modifications.</li>
+<li>It keeps the specificity of selectors low.</li>
+<li>It helps to decouple presentation semantics from document semantics.</li>
+</ul>
+
+<p>You can think of components as <strong>custom elements that enclose specific semantics, styling, and behavior</strong>.</p>
+
+<h3>
+<a id="componentname" class="anchor" href="#componentname" aria-hidden="true"><span class="octicon octicon-link"></span></a>ComponentName</h3>
+
+<p>The component's name must be written in camel case.</p>
+
+<pre><code>.myComponent { /* … */ }
+
+&lt;article class="myComponent"&gt;
+  …
+&lt;/article&gt;
+</code></pre>
+
+<h3>
+<a id="componentname--modifiername" class="anchor" href="#componentname--modifiername" aria-hidden="true"><span class="octicon octicon-link"></span></a>componentName--modifierName</h3>
+
+<p>A component modifier is a class that <em>modifies the presentation of the base component in some form</em>. Modifier names must be written in camel case and be separated from the component name by two hyphens. <strong>The class should be included in the HTML in addition to the base component class</strong>.</p>
+
+<pre><code>/* Core button */
+.btn { /* … */ }
+
+/* Default button style */
+.btn--default { /* … */ }
+
+&lt;button class="btn btn--primary"&gt;…&lt;/button&gt;
+</code></pre>
+
+<h3>
+<a id="componentname-descendantname" class="anchor" href="#componentname-descendantname" aria-hidden="true"><span class="octicon octicon-link"></span></a>componentName-descendantName</h3>
+
+<p>A component descendant is a class that is attached to a descendant node of a component. It's responsible for applying presentation directly to the descendant on behalf of a particular component. Descendant names must be written in camel case.</p>
+
+<pre><code>&lt;article class="tweet"&gt;
+  &lt;header class="tweet-header"&gt;
+    &lt;img class="tweet-avatar" src="{$src}" alt="{$alt}"&gt;
+    …
+  &lt;/header&gt;
+  &lt;div class="tweet-body"&gt;
+    …
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+
+<h3>
+<a id="componentnameis-stateofcomponent" class="anchor" href="#componentnameis-stateofcomponent" aria-hidden="true"><span class="octicon octicon-link"></span></a>componentName.is-stateOfComponent</h3>
+
+<p>Use <code>is-stateName</code> for <em>state-based modifications of components</em>. The state name must be Camel case. Never style these classes directly; they should always be used as an adjoining class.</p>
+
+<p>JS can add/remove these classes. This means that the same state names can be used in multiple contexts, but <strong>every component must define its own styles for the state</strong> (as they are scoped to the component).</p>
+
+<pre><code>.tweet { /* … */ }
+.tweet.is-expanded { /* … */ }
+
+&lt;article class="tweet is-expanded"&gt;
+  …
+&lt;/article&gt;
+</code></pre>
+
+<h2>
+<a id="variables" class="anchor" href="#variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Variables</h2>
+
+<p>Syntax: <code>&lt;property&gt;-&lt;value&gt;</code></p>
+
+<p>Variable names in our CSS are structured to provide strong associations between property and use.</p>
+
+<p>The following variable definition is a <code>color</code> property, with the value <code>greenCaribbean</code>.</p>
+
+<pre><code>$color-greenCaribbean: #00BC9B;
+</code></pre>
+
+<h3>
+<a id="colors" class="anchor" href="#colors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Colors</h3>
+
+<p>When implementing feature styles, you should only be using color variables provided by colors.scss. When adding a color variable to colors.scss, use hex instead of RGB for colors.</p>
+
+<p>Right:</p>
+
+<pre><code>color: #000;
+</code></pre>
+
+<p>Wrong:</p>
+
+<pre><code>color: rgba(255,255,255,.3);
+</code></pre>
+
+<h3>
+<a id="z-index-scale" class="anchor" href="#z-index-scale" aria-hidden="true"><span class="octicon octicon-link"></span></a>z-index scale</h3>
+
+<p>Please use the z-index scale defined in z-index.scss.</p>
+
+<p><code>@zIndex-1 - @zIndex-9</code> are provided. Nothing should be higher then <code>@zIndex-9</code>.</p>
+
+<h3>
+<a id="font-styles" class="anchor" href="#font-styles" aria-hidden="true"><span class="octicon octicon-link"></span></a>Font Styles</h3>
+
+<p><del>With the additional support of web fonts <code>font-weight</code> plays a more important role than it once did. Different font weights will render typefaces specifically created for that weight, unlike the old days where bold could be just an algorithm to fatten a typeface. Obvious uses the numerical value of <code>font-weight</code> to enable the best representation of a typeface. The following table is a guide:</del></p>
+
+<p><del>Raw font weights should be avoided. Instead, use the appropriate <code>font mixin: .font-sansI7, .font-sansN7</code>, etc.</del></p>
+
+<p><del>The suffix defines the weight and style:</del></p>
+
+<pre><code>N = normal
+I = italic
+4 = normal font-weight
+7 = bold font-weight
+</code></pre>
+
+<p>Refer to <del>type.scss</del> <code>variables.scss</code> for type size, letter-spacing, and line height. Raw sizes, spaces, and line heights should be avoided outside of <del>type.scss</del> <code>variables.scss</code>.</p>
+
+<pre><code>@fontSize-micro
+@fontSize-smallest
+@fontSize-smaller
+@fontSize-small
+@fontSize-base
+@fontSize-large
+@fontSize-larger
+@fontSize-largest
+@fontSize-jumbo
+</code></pre>
+
+<h3>
+<a id="line-height" class="anchor" href="#line-height" aria-hidden="true"><span class="octicon octicon-link"></span></a>Line Height</h3>
+
+<p><del>type.scss</del> <code>variables.scss</code> also provides a line height scale. This should be used for blocks of text.</p>
+
+<pre><code>@lineHeight-tightest
+@lineHeight-tighter
+@lineHeight-tight
+@lineHeight-baseSans
+@lineHeight-base
+@lineHeight-loose
+@lineHeight-looser
+</code></pre>
+
+<h3>
+<a id="letter-spacing" class="anchor" href="#letter-spacing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Letter spacing</h3>
+
+<p>Letter spacing should also be controlled with the following var scale.</p>
+
+<pre><code>@letterSpacing-tightest
+@letterSpacing-tighter
+@letterSpacing-tight
+@letterSpacing-normal
+@letterSpacing-loose
+@letterSpacing-looser
+</code></pre>
+
+<h3>
+<a id="mixins" class="anchor" href="#mixins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mixins</h3>
+
+<p>mixin syntax: <code>m-&lt;propertyName&gt;</code></p>
+
+<pre><code>// this gives items a max width and centers them using margins
+@mixin m-centerAlign($max-width) {
+  display: block;
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+</code></pre>
+
+<h3>
+<a id="single-declarations" class="anchor" href="#single-declarations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Single declarations</h3>
+
+<p>In instances where a rule set includes only one declaration, consider removing line breaks for readability and faster editing</p>
+
+<pre><code>/* Single declarations on one line */
+.span1 { width: 60px; }
+.span2 { width: 140px; }
+.span3 { width: 220px; }
+
+/* Multiple declarations, one per line */
+.sprite {
+  display: inline-block;
+  width: 16px;
+  height: 15px;
+  background-image: url(../img/sprite.png);
+}
+</code></pre>
+
+<h3>
+<a id="shorthand-notation" class="anchor" href="#shorthand-notation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Shorthand notation</h3>
+
+<p>Strive to limit use of shorthand declarations to instances where you must explicitly set all the available values.</p>
+
+<p>Common overused shorthand properties include:</p>
+
+<pre><code>padding
+margin
+font
+background
+border
+border-radius
+</code></pre>
+
+<p>Often times we don't need to set all the values a shorthand property represents.</p>
+
+<pre><code>/* Bad example */
+.element {
+  margin: 0 0 10px;
+  background: red;
+  background: url("image.jpg");
+  border-radius: 3px 3px 0 0;
+}
+
+/* Good example */
+.element {
+  margin-bottom: 10px;
+  background-color: red;
+  background-image: url("image.jpg");
+  border-top-left-radius: 3px;
+
+  border-top-right-radius: 3px;
+}
+</code></pre>
+
+<hr>
+
+<h2>
+<a id="architecture" class="anchor" href="#architecture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Architecture</h2>
+
+<h3>
+<a id="stylesheet-directory-structure" class="anchor" href="#stylesheet-directory-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://smacss.com/book/categorizing">Stylesheet Directory Structure</a>
+</h3>
+
+<ul>
+<li>Organize sections of code by component.</li>
+<li>Develop a consistent commenting hierarchy.</li>
+<li>When using multiple CSS files, break them down by component instead of page. Pages can be rearranged and components moved.</li>
+<li>Break Into As Many Small Files As Makes Sense - there is no penalty to splitting into many small files.</li>
+</ul>
+
+<pre><code>├── base  // normalize.css, styling elements, global styles, typography, forms, lists and tables
+│   └── IE
+├── components  // reusable, modular design elements
+├── layout  // grid, layouts
+├── plugins  // for vendor utilities used
+├── state  // active/inactive, hidden/visible; JS
+└── theme  // added layer of design (colors, fonts); multiple themes, variations on style of components
+</code></pre>
+
+<hr>
+
+<h2>
+<a id="stuff-to-avoid" class="anchor" href="#stuff-to-avoid" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stuff to Avoid</h2>
+
+<h3>
+<a id="avoid-ids" class="anchor" href="#avoid-ids" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://oli.jp/2011/ids/">Avoid ID’s</a>
+</h3>
+
+<p>ID’s are really hard. They are to specific and mostly necessary for JS-Hooks. The better way is to use classes.</p>
+
+<h3>
+<a id="avoid-important" class="anchor" href="#avoid-important" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avoid <code>!important</code>
+</h3>
+
+<p>If you need this, than goes something wrong at your CSS-architecture, because you need this only if you want to overwrite styles. If your structure is clean, than you will don’t need this. It’s like to shot with a cannon to sparrows.</p>
+
+<h3>
+<a id="avoid-child-selector" class="anchor" href="#avoid-child-selector" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avoid child-selector</h3>
+
+<p>Why I avoid child-selector? It is yet a good CSS-Feature? No I don’t think so. At my start I used it often, but more and more I learned that it makes the module to specific. It depends on the structure of your html, but what is if the order will be changed? <strong>Use classes!</strong></p>
+
+<pre><code>// Bad example
+// Child-selector
+.m-tabs &gt; li {}
+
+// Good example
+// Classname
+.m-tabs .m-tabs__trigger {}
+
+// Better example
+// Less nesting
+.m-tabs__trigger {}
+</code></pre>
+
+<h3>
+<a id="avoid-magic-numbers" class="anchor" href="#avoid-magic-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avoid <em>Magic Numbers</em>
+</h3>
+
+<p>"Magic number" is an old school programming term for <em>unnamed numerical constant</em>. Basically, it's just a random number that happens to just work™ yet is not tied to any logical explanation.</p>
+
+<p>Needless to say magic numbers are a plague and should be avoided at all costs. When you cannot manage to find a reasonable explanation for why a number works, add an extensive comment explaining how you got there and why you think it works. Admitting you don't know why something works is still more helpful to the next developer than them having to figure out what's going on from scratch.</p>
+
+<pre><code>// 1. Magic number. This value is the lowest I could find to align the top of
+ `.foo` with its parent. Ideally, we should fix it properly.
+ */
+.foo {
+  top: 0.327em; /* 1 */
+}
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/itsjustmath/code-guide/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/itsjustmath/code-guide/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/itsjustmath/code-guide"></a> is maintained by <a href="https://github.com/itsjustmath">itsjustmath</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

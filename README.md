@@ -82,7 +82,7 @@ Example with better names:
 
 ## Our Codebase
 
-Agent Ace uses a subset of [SCSS](http://sass-lang.com/) for style generation. Agent Ace's naming conventions are adapted from the work being done in the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc) (and [@fat](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) at Medium). Which is to say...
+We use a subset of [SCSS](http://sass-lang.com/) for style generation. These naming conventions are adapted from the work being done in the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc) (and [@fat](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) at Medium). Which is to say...
 > **It relies on structured class names and meaningful hyphens** (i.e., not using hyphens merely to separate words). This is to help communicate the relationships between classes.
 
 
@@ -115,7 +115,7 @@ JavaScript-specific classes reduce the risk that changing the structure or theme
 
 ## Utilities
 
-Agent Ace's utility classes are **low-level structural and positional traits**. Utilities can be applied directly to any element; multiple utilities can be used together; and utilities can be used alongside component classes.
+Utility classes are **low-level structural and positional traits**. Utilities can be applied directly to any element; multiple utilities can be used together; and utilities can be used alongside component classes.
 
 Utilities exist because **certain CSS properties and patterns are used frequently**. For example: floats, containing floats, vertical alignment, text truncation. Relying on utilities can help to reduce repetition and provide consistent implementations. They also act as a philosophical alternative to functional (i.e. non-polyfill) mixins.
 

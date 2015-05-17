@@ -15,7 +15,7 @@ _Guidelines for flexible and maintainable HTML and CSS_
   * We promote the use of [OOCSS](#principles) and the [single responsibility principle](#principles)
 * **The Details**
   * We use [`js-`](#javascript) prefixed class names for elements being relied upon for javascript selectors
-  * We use [`.u-`](#utilites) prefixed class names for single purpose utility classes
+  * We use [`.u-`](#utilities) prefixed class names for single purpose utility classes
   * Our [components](#components) use **meaningful hypens** and **camelCase**  and follow the [`<componentName>[--modifierName|-descendantName]`](#componentname) pattern
   * [`.is-`](#componentnameis-stateofcomponent) prefixed classes for stateful classes (often toggled by js) like `.is-disabled`
   * `$variable` names should follow the [`<property>-<value>`](#variables) pattern

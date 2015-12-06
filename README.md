@@ -8,7 +8,7 @@ _Guidelines for flexible and maintainable HTML and CSS_
 # TL;DR
 
 * **High-Level**
-  * [HTML](#html) / [CSS](#css) formatting and syntax-related [stuff](http://docs.emmet.io/css-abbreviations/vendor-prefixes/) should be handled by [various](https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md) [linters](https://github.com/postcss/autoprefixer)
+	* [HTML](#html) / [CSS](#css) formatting and syntax-related [stuff](http://docs.emmet.io/css-abbreviations/vendor-prefixes/) should be handled by [various](https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md) [linters](https://github.com/postcss/autoprefixer)
   * Use meaningful [naming conventions](#naming-conventions); use structural or purposeful names over presentational
   * Before you start **touching** any stylesheets, [study this thoroughly](https://github.com/itsjustmath/scalable-css-reading-list);
   * We use [SCSS](#css), and our own twist on the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc);

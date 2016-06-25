@@ -1,40 +1,29 @@
 # Code Guide
-_Guidelines for flexible and maintainable HTML and CSS_
 
-### Every line of code should appear to be written by a single person, no matter the number of contributors.[*](http://mdo.github.io/code-guide/)
-
----
+> Every line of code should appear to be written by a single person, no matter the number of contributors.[*](http://mdo.github.io/code-guide/)
 
 # TL;DR
 
 * **High-Level**
-	* [HTML](#html) / [CSS](#css) formatting and syntax-related [stuff](http://docs.emmet.io/css-abbreviations/vendor-prefixes/) should be handled by [various](https://github.com/causes/scss-lint/blob/master/lib/scss_lint/linter/README.md) [linters](https://github.com/postcss/autoprefixer)
-  * Use meaningful [naming conventions](#naming-conventions); use structural or purposeful names over presentational
-  * Before you start **touching** any stylesheets, [study this thoroughly](https://github.com/itsjustmath/scalable-css-reading-list);
-  * We use [SCSS](#css), and our own twist on the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc);
-  * We promote the use of [OOCSS](#principles) and the [single responsibility principle](#principles)
+    * Use meaningful [naming conventions](#naming-conventions); use structural or purposeful names over presentational
+    * We use [SCSS](#css), and our own twist on the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc);
+    * We promote the use of [OOCSS](#principles) and the [single responsibility principle](#principles)
 * **The Details**
-  * We use [`js-`](#javascript) prefixed class names for elements being relied upon for javascript selectors
-  * We use [`.u-`](#utilities) prefixed class names for single purpose utility classes
-  * Our [components](#components) use **meaningful hypens** and **camelCase**  and follow the [`<componentName>[--modifierName|-descendantName]`](#componentname) pattern
-  * [`.is-`](#componentnameis-stateofcomponent) prefixed classes for stateful classes (often toggled by js) like `.is-disabled`
-  * `$variable` names should follow the [`<property>-<value>`](#variables) pattern
-  * Use [`color`](#colors), [`font-family`](), [`font-size`](), [`line-height`](#line-height), and [`letter-spacing`](#letter-spacing) variables defined in the `variables.scss` file
-  * Mixins should be prefixed with [`.m-`](#mixins)
+    * We use [`js-`](#javascript) prefixed class names for elements being relied upon for javascript selectors
+    * We use [`.u-`](#utilities) prefixed class names for single purpose utility classes
+    * Our [components](#components) use **meaningful hypens** and **PascalCase**  and follow the [`<ComponentName>[--modifierName|-descendantName]`](#componentname) pattern
+    * [`.is-`](#componentnameis-stateofcomponent) prefixed classes for stateful classes (often toggled by js) like `.is-disabled`
+    * `$variable` names should follow the [`<property>-<value>`](#variables) pattern
+    * Use [`color`](#colors), [`font-size`](#font-size), [`line-height`](#line-height), and [`letter-spacing`](#letter-spacing) variables defined in the `variables.scss` file
+    * Mixins should be prefixed with [`.m-`](#mixins)
 * **Best Practices**
-  * Limit the use of [shorthand declarations](#shorthand-notation)
-  * Use white space to improve [legibility](#single-declarations)
-  * Avoid [`#ids`](#avoid-ids), [`!important`](#avoid-important), [child selectors](#avoid-child-selector), and [magic numbers](#avoid-magic-numbers);
-* **Workflows**
-  * Our [stylesheet directory structure](#architecture) is based on [SMACSS](https://smacss.com/book/categorizing)
-
----
+    * Limit the use of [shorthand declarations](#shorthand-notation)
+    * Use white space to improve [legibility](#single-declarations)
+    * Avoid [`#ids`](#avoid-ids), [`!important`](#avoid-important), [child selectors](#avoid-child-selector), and [magic numbers](#avoid-magic-numbers);
 
 # HTML
 
 ## Naming Conventions [*](https://github.com/necolas/idiomatic-html)
-
-![Semantics](http://i.imgur.com/2CtFy2X.png)
 
 > Use meaningful names; use structural or purposeful names over presentational.
 
@@ -46,49 +35,29 @@ Strive to maintain HTML standards and semantics, but not at the expense of pract
 
 Avoid systematic use of abbreviated class names. Don't make things difficult to understand.
 
-Example with bad names:
+```html
+<!-- Example with bad names -->
+<div class="cb s-scr"></div>
 
-`<div class="cb s-scr"></div>`
-
+<!-- Example with better names -->
+<div class="column-body is-scrollable"></div>
 ```
-.s-scr {
-  overflow: auto;
-}
-
-.cb {
-  background: #000;
-}
-```
-
-Example with better names:
-
-`<div class="column-body is-scrollable"></div>`
-
-```
-.is-scrollable {
-    overflow: auto;
-}
-
-.column-body {
-    background: #000;
-}
-```
-
----
 
 # CSS
 
-#### Before you continue reading, I **highly recommend** you study [this reading list](https://github.com/itsjustmath/scalable-css-reading-list) - it is the go-to resource for resources related to writing scalable, object-oriented CSS.
+#### I **highly recommend** you read [this list](https://github.com/itsjustmath/scalable-css-reading-list) - it is the go-to resource for resources related to writing scalable, object-oriented CSS.
 
 ## Our Codebase
 
-We use a subset of [SCSS](http://sass-lang.com/) for style generation. These naming conventions are adapted from the work being done in the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc) (and [@fat](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) at Medium). Which is to say...
-> **It relies on structured class names and meaningful hyphens** (i.e., not using hyphens merely to separate words). This is to help communicate the relationships between classes.
+We strive to maintain a component-based frontend system. It allows for the implementation and composition of loosely coupled, independent units into well-defined composite objects. Components are encapsulated but are able to interoperate via interfaces/events.[*](https://github.com/suitcss/suit/blob/master/doc/design-principles.md)
+
+Our naming conventions are a [twist](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) on the [SUIT CSS framework](https://github.com/suitcss/suit/tree/master/doc). Which is to say...
+> **They rely on structured class names and meaningful hyphens** (i.e., not using hyphens merely to separate words). This is to help communicate the relationships between classes.
 
 
-## [Principles](http://cssguidelin.es/#object-orientation)
+## Principles
 
-### Object-orientation
+### [Object-orientation](http://cssguidelin.es/#object-orientation)
 Object-orientation is a programming paradigm that breaks larger programs up into smaller, in(ter)dependent objects that all have their own roles and responsibilities.
 
 When applied to CSS, we call it object-oriented CSS, or OOCSS (coined by Nicole Sullivan). OOCSS deals with the separation of UIs into structure and skin: breaking UI components into their underlying structural forms, and layering their cosmetic forms on separately. This means that we can recycle common and recurring design patterns very cheaply without having to necessarily recycle their specific implementation details at the same time. OOCSS promotes reuse of code, which makes us quicker, as well as keeping the size of our codebase down.
@@ -101,13 +70,15 @@ The single responsibility principle is a paradigm that, very loosely, states tha
 
 What this means for us is that our CSS should be composed of a series of much smaller classes that focus on providing very specific and limited functionality. This means that we need to decompose UIs into their smallest component pieces that each serve a single responsibility; they all do just one job, but can be very easily combined and composed to make much more versatile and complex constructs.
 
+***
+
 ## Javascript
 
 syntax: `js-<targetName>`
 
 JavaScript-specific classes reduce the risk that changing the structure or theme of components will inadvertently affect any required JavaScript behaviour and complex functionality. It is not neccesarry to use them in every case, just think of them as a tool in your utility belt. If you are creating a class, which you dont intend to use for styling, but instead only as a selector in JavaScript, you should probably be adding the js- prefix. In practice this looks like this:
 
-```
+```html
 <a href="/login" class="btn btn-primary js-login"></a>
 ```
 
@@ -119,29 +90,33 @@ Utility classes are **low-level structural and positional traits**. Utilities ca
 
 Utilities exist because **certain CSS properties and patterns are used frequently**. For example: floats, containing floats, vertical alignment, text truncation. Relying on utilities can help to reduce repetition and provide consistent implementations. They also act as a philosophical alternative to functional (i.e. non-polyfill) mixins.
 
-    <div class="u-clearfix">
-      <p class="u-textTruncate">{$text}</p>
-      <img class="u-pullLeft" src="{$src}" alt="">
-      <img class="u-pullLeft" src="{$src}" alt="">
-      <img class="u-pullLeft" src="{$src}" alt="">
-    </div>
+```html
+<div class="u-clearfix">
+  <p class="u-textTruncate">{$text}</p>
+  <img class="u-pullLeft" src="{$src}" alt="">
+  <img class="u-pullLeft" src="{$src}" alt="">
+  <img class="u-pullLeft" src="{$src}" alt="">
+</div>
+```
 
+> _Side note_: Try not to go crazy with creation of utilities. A good rule of thumb is to only create utils if you've used that particular solution at least 3 times in your code. For the most part, you won't want to create utilities for things with values that vary (eg. padding, margin).
 
-### u-utilityName
+### `u-utilityName`
 
 Syntax: `u-<utilityName>`
 
 Utilities must use a camel case name, prefixed with a u namespace. What follows is an example of how various utilities can be used to create a simple structure within a component.
 
-    <div class="u-clearfix">
-      <a class="u-pullLeft" href="{$url}">
-        <img class="u-block" src="{$src}" alt="">
-      </a>
-      <p class="u-sizeFill u-textBreak">
-        …
-      </p>
-    </div>
-
+```html
+<div class="u-clearfix">
+  <a class="u-pullLeft" href="{$url}">
+    <img class="u-block" src="{$src}" alt="">
+  </a>
+  <p class="u-sizeFill u-textBreak">
+    …
+  </p>
+</div>
+```
 
 ## Components
 
@@ -155,55 +130,55 @@ Component driven development offers several benefits when reading and writing HT
 
 You can think of components as **custom elements that enclose specific semantics, styling, and behavior**.
 
-### ComponentName
-The component's name must be written in camel case.
+### `ComponentName`
+The component's name must be written in pascal case.
 
 ```
-.myComponent { /* … */ }
+.MyComponent { /* … */ }
 
-<article class="myComponent">
+<article class=“MyComponent">
   …
 </article>
 ```
 
-### componentName--modifierName
+### `ComponentName--modifierName`
 A component modifier is a class that *modifies the presentation of the base component in some form*. Modifier names must be written in camel case and be separated from the component name by two hyphens. **The class should be included in the HTML in addition to the base component class**.
 
 ```
 /* Core button */
-.btn { /* … */ }
+.Button { /* … */ }
 
 /* Default button style */
-.btn--default { /* … */ }
+.Button--default { /* … */ }
 
-<button class="btn btn--primary">…</button>
+<button class=“Button Button--primary">…</button>
 ```
 
-### componentName-descendantName
+### `ComponentName-descendantName`
 A component descendant is a class that is attached to a descendant node of a component. It's responsible for applying presentation directly to the descendant on behalf of a particular component. Descendant names must be written in camel case.
 
 ```
-<article class="tweet">
-  <header class="tweet-header">
-    <img class="tweet-avatar" src="{$src}" alt="{$alt}">
+<article class=“Tweet">
+  <header class=“Tweet-header">
+    <img class=“Tweet-avatar" src="{$src}" alt="{$alt}">
     …
   </header>
-  <div class="tweet-body">
+  <div class=“Tweet-body">
     …
   </div>
 </article>
 ```
 
-### componentName.is-stateOfComponent
+### `ComponentName.is-stateOfComponent`
 Use `is-stateName` for *state-based modifications of components*. The state name must be Camel case. Never style these classes directly; they should always be used as an adjoining class.
 
 JS can add/remove these classes. This means that the same state names can be used in multiple contexts, but **every component must define its own styles for the state** (as they are scoped to the component).
 
 ```
-.tweet { /* … */ }
-.tweet.is-expanded { /* … */ }
+.Tweet { /* … */ }
+.Tweet.is-expanded { /* … */ }
 
-<article class="tweet is-expanded">
+<article class=“Tweet is-expanded">
   …
 </article>
 ```
@@ -221,83 +196,64 @@ $color-greenCaribbean: #00BC9B;
 ```
 
 ### Colors
-When implementing feature styles, you should only be using color variables provided by colors.scss. When adding a color variable to colors.scss, use hex instead of RGB for colors.
+When implementing feature styles, you should only be using color variables provided by colors.scss. When adding color variables use hex instead of RGB (for the sake of brevity). Use [Name that Color](http://chir.ag/projects/name-that-color/) if you would like semantic names for colors
 
-Right:
-
-```
+```scss
+// right
 color: #000;
-```
 
-Wrong:
-
-```
+// wrong
 color: rgba(255,255,255,.3);
 ```
 
-### z-index scale
-Please use the z-index scale defined in z-index.scss.
-
-`@zIndex-1 - @zIndex-9` are provided. Nothing should be higher then `@zIndex-9`.
 
 ### Font Styles
-~~With the additional support of web fonts `font-weight` plays a more important role than it once did. Different font weights will render typefaces specifically created for that weight, unlike the old days where bold could be just an algorithm to fatten a typeface. Obvious uses the numerical value of `font-weight` to enable the best representation of a typeface. The following table is a guide:~~
 
-~~Raw font weights should be avoided. Instead, use the appropriate `font mixin: .font-sansI7, .font-sansN7`, etc.~~
+Refer to `variables.scss` for type size, letter-spacing, and line height. Raw sizes, spaces, and line heights should be avoided outside of `variables.scss`.
 
-~~The suffix defines the weight and style:~~
+#### Font Size
 
-```
-N = normal
-I = italic
-4 = normal font-weight
-7 = bold font-weight
-```
-
-Refer to ~~type.scss~~ `variables.scss` for type size, letter-spacing, and line height. Raw sizes, spaces, and line heights should be avoided outside of ~~type.scss~~ `variables.scss`.
-
-```
-@fontSize-micro
-@fontSize-smallest
-@fontSize-smaller
-@fontSize-small
-@fontSize-base
-@fontSize-large
-@fontSize-larger
-@fontSize-largest
-@fontSize-jumbo
+```scss
+$fontSize-micro
+$fontSize-smallest
+$fontSize-smaller
+$fontSize-small
+$fontSize-base
+$fontSize-large
+$fontSize-larger
+$fontSize-largest
+$fontSize-jumbo
 ```
 
-### Line Height
-~~type.scss~~ `variables.scss` also provides a line height scale. This should be used for blocks of text.
+#### Line Height
+`variables.scss` also provides a line height scale. This should be used for blocks of text.
 
 ```
-@lineHeight-tightest
-@lineHeight-tighter
-@lineHeight-tight
-@lineHeight-baseSans
-@lineHeight-base
-@lineHeight-loose
-@lineHeight-looser
+$lineHeight-tightest
+$lineHeight-tighter
+$lineHeight-tight
+$lineHeight-baseSans
+$lineHeight-base
+$lineHeight-loose
+$lineHeight-looser
 ```
 
-### Letter spacing
+#### Letter spacing
 Letter spacing should also be controlled with the following var scale.
 
-```
-@letterSpacing-tightest
-@letterSpacing-tighter
-@letterSpacing-tight
-@letterSpacing-normal
-@letterSpacing-loose
-@letterSpacing-looser
+```scss
+$letterSpacing-tightest
+$letterSpacing-tighter
+$letterSpacing-tight
+$letterSpacing-normal
+$letterSpacing-loose
+$letterSpacing-looser
 ```
 
 ### Mixins
 mixin syntax: `m-<propertyName>`
 
-```
-// this gives items a max width and centers them using margins
+```scss
 @mixin m-centerAlign($max-width) {
   display: block;
   max-width: $max-width;
@@ -306,10 +262,12 @@ mixin syntax: `m-<propertyName>`
 }
 ```
 
-### Single declarations
-In instances where a rule set includes only one declaration, consider removing line breaks for readability and faster editing
+## Best Practices
 
-```
+### Single declarations
+In instances where a rule set includes only one declaration, consider removing line breaks for readability and faster editing.
+
+```scss
 /* Single declarations on one line */
 .span1 { width: 60px; }
 .span2 { width: 140px; }
@@ -340,7 +298,7 @@ border-radius
 
 Often times we don't need to set all the values a shorthand property represents.
 
-```
+```scss
 /* Bad example */
 .element {
   margin: 0 0 10px;
@@ -355,33 +313,9 @@ Often times we don't need to set all the values a shorthand property represents.
   background-color: red;
   background-image: url("image.jpg");
   border-top-left-radius: 3px;
-
   border-top-right-radius: 3px;
 }
 ```
-
----
-
-## Architecture
-
-### [Stylesheet Directory Structure](https://smacss.com/book/categorizing)
-
-* Organize sections of code by component.
-* Develop a consistent commenting hierarchy.
-* When using multiple CSS files, break them down by component instead of page. Pages can be rearranged and components moved.
-* Break Into As Many Small Files As Makes Sense - there is no penalty to splitting into many small files.
-
-```
-├── base  // normalize.css, styling elements, global styles, typography, forms, lists and tables
-│   └── IE
-├── components  // reusable, modular design elements
-├── layout  // grid, layouts
-├── plugins  // for vendor utilities used
-├── state  // active/inactive, hidden/visible; JS
-└── theme  // added layer of design (colors, fonts); multiple themes, variations on style of components
-```
-
----
 
 ## Stuff to Avoid
 
@@ -394,7 +328,7 @@ If you need this, than goes something wrong at your CSS-architecture, because yo
 ### Avoid child-selector
 Why I avoid child-selector? It is yet a good CSS-Feature? No I don’t think so. At my start I used it often, but more and more I learned that it makes the module to specific. It depends on the structure of your html, but what is if the order will be changed? **Use classes!**
 
-```
+```scss
 // Bad example
 // Child-selector
 .m-tabs > li {}
@@ -414,10 +348,9 @@ Why I avoid child-selector? It is yet a good CSS-Feature? No I don’t think so.
 
 Needless to say magic numbers are a plague and should be avoided at all costs. When you cannot manage to find a reasonable explanation for why a number works, add an extensive comment explaining how you got there and why you think it works. Admitting you don't know why something works is still more helpful to the next developer than them having to figure out what's going on from scratch.
 
-```
-// 1. Magic number. This value is the lowest I could find to align the top of
- `.foo` with its parent. Ideally, we should fix it properly.
- */
+```scss
+/* This value is the lowest I could find to align the top of
+ `.foo` with its parent. Ideally, we should fix it properly. */
 .foo {
   top: 0.327em; /* 1 */
 }

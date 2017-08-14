@@ -214,40 +214,33 @@ Refer to `variables.scss` for type size, letter-spacing, and line height. Raw si
 #### Font Size
 
 ```scss
-$fontSize-micro
-$fontSize-smallest
-$fontSize-smaller
-$fontSize-small
-$fontSize-base
-$fontSize-large
-$fontSize-larger
-$fontSize-largest
-$fontSize-jumbo
+$fontSize-xxs
+$fontSize-xs
+$fontSize-sm
+$fontSize-md
+$fontSize-lg
+$fontSize-xl
+$fontSize-xxl
 ```
 
 #### Line Height
 `variables.scss` also provides a line height scale. This should be used for blocks of text.
 
 ```
-$lineHeight-tightest
-$lineHeight-tighter
-$lineHeight-tight
-$lineHeight-baseSans
-$lineHeight-base
-$lineHeight-loose
-$lineHeight-looser
+$lineHeight-sm
+$lineHeight-md
+$lineHeight-lg
+$lineHeight-xl
+$lineHeight-xxl
 ```
 
 #### Letter spacing
 Letter spacing should also be controlled with the following var scale.
 
 ```scss
-$letterSpacing-tightest
-$letterSpacing-tighter
-$letterSpacing-tight
-$letterSpacing-normal
-$letterSpacing-loose
-$letterSpacing-looser
+$letterspacing-xs
+$letterspacing-sm
+$letterspacing-md
 ```
 
 ### Mixins
